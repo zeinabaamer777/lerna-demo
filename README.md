@@ -1,27 +1,156 @@
-# LernaDemoTwo
+Mono-Repo using Lerna, Yarn Workspaces and Angular
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.0.3.
 
-## Development server
+## 1. Enable yarn workspaces:
+`yarn config set workspaces-experimental true`
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## 2. Create directory
+`mkdir mono-repo-angular && cd mono-repo-angular`
 
-## Code scaffolding
+## 3. Create angular project
+`ng new lerna-demo --create-application=false`
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## 4. Then ini
+`yarn init`
 
-## Build
+## 5. Delete the package-lock file as we will be using yarn and not npm
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## 6. Add lerna as dev dependency
+`yarn add lerna --save-dev`
 
-## Running unit tests
+## 7. Init lerna dependency
+`lerna init --independent`
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## 8. Modify lerna.json as:
+```
+{
+ "packages": [
+   "projects/*"
+ ],
+ "version": "independent",
+ "npmClient": "yarn",
+ "useWorkspaces": true
+}
+```
+ 
 
-## Running end-to-end tests
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+## 9. Add package installer to the dev dependencies
+`yarn install ng-packagr tsickle --save-dev`
 
-## Further help
+## 10. Update package.json and add following keys in the file
+ ```
+ "workspaces": [
+   "projects/*"
+ ],
+ ```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+
+
+## 11. Add application in the repository
+`ng g app new-app`
+
+## 12. Add package.json in the app folder and add scripts for serve, test, lint and build
+```
+{
+ "name": "new-app",
+ "version": "0.0.1",
+ "scripts": {
+   "start": "ng serve",
+   "build": "ng build",
+   "test": "ng test",
+   "lint": "ng lint"
+ },
+ "peerDependencies": {
+   "@angular/common": "^7.1.0",
+   "@angular/core": "^7.1.0"
+ }
+}
+```
+ 
+
+## 13. Add library in the rep
+`ng g lib shared-lib`
+
+## 14. Modify the package.json as follows:
+```
+{
+ "name": "shared-lib",
+ "version": "0.0.1",
+ "scripts": {
+   "start": "ng serve",
+   "test": "ng test",
+   "lint": "ng lint",
+   "build": "ng-packagr -p package.json"
+ },
+ "peerDependencies": {
+   "@angular/common": "^7.1.0",
+   "@angular/core": "^7.1.0"
+ },
+ "ngPackage": {
+   "lib": {
+     "entryFile": "src/public-api.ts"
+   },
+   "dest": "../../dist/shared-lib"
+ }
+}
+```
+
+## 15. Add following scripts in the root package json file
+```
+"scripts": {
+   "ng": "ng",
+   "start": "lerna run start --scope=new-app --stream",
+   "build": "lerna run build --stream",
+   "build-lib": "lerna run build --scope=shared-lib --stream",
+   "test": "ng test",
+   "lint": "ng lint",
+   "e2e": "ng e2e"
+ }
+```
+
+## 16. Now you can build the file as:
+`yarn run build-lib`
+
+## 17. Add the shared file as dependency in app
+`lerna add =shared-lib`
+
+## 18. Then run
+ `	lerna bootstrap `
+to install the dependencies in the projects
+
+## 19. Then open app-one, app.module.ts 
+and add import statement 
+and declare the module
+
+```
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+ 
+import { AppComponent } from './app.component';
+import { SharedModule, SharedService } from 'shared-lib';
+ 
+@NgModule({
+ declarations: [
+   AppComponent
+ ],
+ imports: [
+   BrowserModule,
+   SharedModule
+ ],
+ providers: [
+   SharedService
+ ],
+ bootstrap: [AppComponent]
+})
+export class AppModule { }
+```
+
+
+## 20. Then you can use the shared component inside the application
+
+#### And use 
+
+`yarn start`
+
+The application works…!
