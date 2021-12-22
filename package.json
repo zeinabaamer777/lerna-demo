@@ -4,11 +4,10 @@
   "scripts": {
     "ng": "ng",
     "start": "lerna run start --scope=new-app --stream",
-    "build": "lerna run build --scope=new-app,shared --stream",
-    "test": "lerna run test --scope=new-app,shared --stream",
-    "lint": "lerna run lint --scope=new-app,shared --stream",
-    "build-lib": "lerna run build --scope=shared",
-    "build-shared-lib": "lerna run build --scope=shared-lib",
+    "build": "lerna run build --scope=new-app,shared-lib --stream",
+    "test": "lerna run test --scope=new-app,shared-lib --stream",
+    "lint": "lerna run lint --scope=new-app,shared-lib --stream",
+    "build-lib": "lerna run build --scope=shared-lib",
     "e2e": "ng e2e"
   },
   "workspaces": [

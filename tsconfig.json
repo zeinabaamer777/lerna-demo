@@ -17,10 +17,6 @@
     "moduleResolution": "node",
     "importHelpers": true,
     "paths": {
-      "shared": [
-        "dist/shared/shared",
-        "dist/shared"
-      ],
       "shared-lib": [
         "dist/shared-lib/shared-lib",
         "dist/shared-lib"
