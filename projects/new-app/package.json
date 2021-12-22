@@ -1,0 +1,17 @@
+{
+  "name": "new-app",
+  "version": "0.0.1",
+  "scripts": {
+    "start": "ng serve",
+    "build": "ng build",
+    "test": "ng test",
+    "lint": "ng lint"
+  },
+  "peerDependencies": {
+    "@angular/common": "^13.0.0",
+    "@angular/core": "^13.0.0"
+  },
+  "dependencies": {
+    "shared-lib": "^0.0.1"
+  }
+}

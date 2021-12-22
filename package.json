@@ -3,11 +3,17 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "start": "lerna run start --scope=new-app --stream",
+    "build": "lerna run build --scope=new-app,shared --stream",
+    "test": "lerna run test --scope=new-app,shared --stream",
+    "lint": "lerna run lint --scope=new-app,shared --stream",
+    "build-lib": "lerna run build --scope=shared",
+    "build-shared-lib": "lerna run build --scope=shared-lib",
+    "e2e": "ng e2e"
   },
+  "workspaces": [
+    "projects/*"
+  ],
   "private": true,
   "dependencies": {
     "@angular/animations": "~13.0.0",
@@ -18,12 +24,15 @@
     "@angular/platform-browser": "~13.0.0",
     "@angular/platform-browser-dynamic": "~13.0.0",
     "@angular/router": "~13.0.0",
-    "lerna": "4.0.0",
+    "lerna": "^4.0.0",
+    "ng-packagr": "13.1.2",
     "rxjs": "~7.4.0",
+    "tsickle": "0.43.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
+    "@angular-devkit/build-angular": "~13.0.4",
     "@angular/cli": "~13.0.3",
     "@angular/compiler-cli": "~13.0.0",
     "@types/jasmine": "~3.10.0",
@@ -34,6 +43,7 @@
     "karma-coverage": "~2.0.3",
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "~1.7.0",
+    "ng-packagr": "^13.0.0",
     "typescript": "~4.4.3"
   }
 }
